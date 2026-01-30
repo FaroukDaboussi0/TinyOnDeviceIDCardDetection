@@ -6,6 +6,10 @@ import { useAssets } from 'expo-asset';
 import { Worklets, useSharedValue } from 'react-native-worklets-core';
 import { useResizePlugin } from 'vision-camera-resize-plugin';
 
+
+
+
+
 const MODEL_FILENAME = 'OptimizedIdCardOnDeviceTop1.onnx'; 
 const INPUT_TENSOR_NAME = 'image_buffer'; 
 const CONFIDENCE_THRESHOLD = 0.95;
@@ -14,7 +18,7 @@ const TARGET_FPS = 2;
 
 const { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } = Dimensions.get('window');
 
-// 0.83 and 1.62 parameters are for for id card rectangle
+// 0.83 and 1.62 parameters are for for id card rectangle , do not not change this without changing the crop in resize (below in the code : line 88 ,89) 
 const CARD_WIDTH = WINDOW_WIDTH * 0.83; 
 const CARD_HEIGHT = CARD_WIDTH * 1.62;
 
@@ -74,7 +78,7 @@ export default function App() {
       isInferenceBusy.value = false;
     }
   };
-  
+
   const runInferenceJS = Worklets.createRunOnJS(performInference);
 
   const frameProcessor = useFrameProcessor((frame) => {
